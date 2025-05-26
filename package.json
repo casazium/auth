@@ -1,0 +1,37 @@
+{
+  "name": "casazium-auth",
+  "version": "1.0.0",
+  "description": "**Casazium Auth** is a lightweight, self-hostable authentication service built for developers and indie creators.",
+  "homepage": "https://github.com/casazium/auth#readme",
+  "bugs": {
+    "url": "https://github.com/casazium/auth/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/casazium/auth.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "vitest",
+    "coverage": "vitest run --coverage"
+  },
+  "dependencies": {
+    "@fastify/cors": "^11.0.1",
+    "bcrypt": "^6.0.0",
+    "dotenv": "^16.5.0",
+    "fastify": "^5.3.3",
+    "fastify-env": "^2.1.1",
+    "fastify-jwt": "^4.1.3",
+    "nodemailer": "^7.0.3",
+    "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "@vitest/coverage-v8": "^3.1.4",
+    "@vitest/ui": "^3.1.4",
+    "vite": "^6.3.5",
+    "vitest": "^3.1.4"
+  }
+}
