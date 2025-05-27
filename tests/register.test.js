@@ -24,6 +24,16 @@ describe('POST /register', () => {
     }
 
     const schema = fs.readFileSync('./src/db/schema.sql', 'utf-8');
+
+    console.log('Checking DB write access...');
+    try {
+      fs.writeFileSync('./test.db', '');
+      console.log('✅ test.db is writable');
+    } catch (err) {
+      console.error('❌ Cannot write to test.db:', err);
+      throw err;
+    }
+
     const db = new sqlite3.Database(process.env.DB_FILE);
     await new Promise((res, rej) => {
       db.exec(schema, (err) => (err ? rej(err) : res()));
