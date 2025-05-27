@@ -1,6 +1,6 @@
 # Casazium Auth
 
-![Coverage Status](https://coveralls.io/repos/github/casazium/auth/badge.svg?branch=main)
+[![Coverage Status](https://coveralls.io/repos/github/casazium/auth/badge.svg?branch=main)](https://coveralls.io/github/casazium/auth?branch=main)
 
 **Casazium Auth** is a lightweight, self-hostable authentication service built for developers and indie creators.
 
