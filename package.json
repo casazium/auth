@@ -16,8 +16,7 @@
   "main": "index.js",
   "scripts": {
     "test": "vitest",
-    "coverage": "vitest run --coverage && npm run coveralls",
-    "coveralls": "cat coverage/lcov.info | coveralls"
+    "coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@fastify/cors": "^11.0.1",
