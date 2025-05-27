@@ -2,10 +2,13 @@
 import sqlite3 from 'sqlite3';
 import { promisify } from 'util';
 
-const dbPath = process.env.DB_FILE || './casazium.db';
+function getDb() {
+  const dbPath = process.env.DB_FILE || './casazium.db';
+  return new sqlite3.Database(dbPath);
+}
 
 export async function createUser(email, passwordHash) {
-  const db = new sqlite3.Database(dbPath);
+  const db = getDb();
   const runAsync = promisify(db.run.bind(db));
 
   try {
