@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import cors from '@fastify/cors';
 import jwt from 'fastify-jwt';
 import registerRoutes from './src/routes/register.js';
+import magicLinkRoutes from './src/routes/magicLink.js';
 
 // Load environment variables
 dotenv.config();
@@ -17,6 +18,7 @@ app.register(jwt, { secret: process.env.JWT_SECRET });
 
 // Register routes
 app.register(registerRoutes);
+app.register(magicLinkRoutes);
 
 // Health check
 app.get('/', async (request, reply) => {

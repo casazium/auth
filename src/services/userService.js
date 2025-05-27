@@ -3,6 +3,7 @@ import { promisify } from 'util';
 
 function getDb() {
   const dbPath = process.env.DB_FILE || './casazium.db';
+  console.log('🧪 Opening DB:', dbPath);
   return new sqlite3.Database(dbPath);
 }
 

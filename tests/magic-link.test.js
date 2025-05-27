@@ -4,15 +4,15 @@ import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import Fastify from 'fastify';
 import fs from 'fs';
 import sqlite3 from 'sqlite3';
-import registerRoutes from '../src/routes/register.js';
+import magicLinkRoutes from '../src/routes/magicLink.js';
 
 const buildApp = () => {
-  const app = Fastify({ logger: true });
-  app.register(registerRoutes);
+  const app = Fastify({ logger: false });
+  app.register(magicLinkRoutes);
   return app;
 };
 
-describe('POST /register', () => {
+describe('POST /magic-link', () => {
   let app;
 
   beforeAll(async () => {
@@ -49,6 +49,20 @@ describe('POST /register', () => {
       }
     );
 
+    // Create test user
+    await new Promise((res, rej) => {
+      const db = new sqlite3.Database(process.env.DB_FILE);
+      db.run(
+        'INSERT INTO users (email, password_hash) VALUES (?, ?)',
+        ['magic@test.com', 'hashedpassword'],
+        (err) => {
+          if (err) return rej(err);
+          db.close();
+          res();
+        }
+      );
+    });
+
     app = buildApp();
     await app.ready();
   });
@@ -60,17 +74,26 @@ describe('POST /register', () => {
     } catch {}
   });
 
-  it('should register a new user', async () => {
+  it('should return 200 when email is valid and user exists', async () => {
     const response = await app.inject({
       method: 'POST',
-      url: '/register',
-      payload: {
-        email: `test+${Date.now()}@example.com`,
-        password: 'hunter2',
-      },
+      url: '/magic-link',
+      payload: { email: 'magic@test.com' },
     });
 
-    expect(response.statusCode).toBe(201);
+    expect(response.statusCode).toBe(200);
+    const body = JSON.parse(response.body);
+    expect(body.success).toBe(true);
+  });
+
+  it('should return 200 even if user does not exist', async () => {
+    const response = await app.inject({
+      method: 'POST',
+      url: '/magic-link',
+      payload: { email: 'notfound@example.com' },
+    });
+
+    expect(response.statusCode).toBe(200);
     const body = JSON.parse(response.body);
     expect(body.success).toBe(true);
   });
@@ -78,36 +101,13 @@ describe('POST /register', () => {
   it('should return 400 if email is missing', async () => {
     const response = await app.inject({
       method: 'POST',
-      url: '/register',
-      payload: {
-        password: 'hunter2',
-      },
+      url: '/magic-link',
+      payload: {},
     });
 
     expect(response.statusCode).toBe(400);
     const body = JSON.parse(response.body);
     expect(body.success).toBe(false);
     expect(body.message).toBe('Email is required');
-  });
-
-  it('should return 409 if user already exists', async () => {
-    const email = `dupe+${Date.now()}@example.com`;
-
-    await app.inject({
-      method: 'POST',
-      url: '/register',
-      payload: { email, password: 'abc123' },
-    });
-
-    const response = await app.inject({
-      method: 'POST',
-      url: '/register',
-      payload: { email, password: 'abc123' },
-    });
-
-    expect(response.statusCode).toBe(409);
-    const body = JSON.parse(response.body);
-    expect(body.success).toBe(false);
-    expect(body.message).toBe('User already exists');
   });
 });
