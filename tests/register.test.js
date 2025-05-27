@@ -16,7 +16,12 @@ describe('POST /register', () => {
   let app;
 
   beforeAll(async () => {
+    app = buildApp();
+
     console.log('Loading schema from:', './src/db/schema.sql');
+    if (!fs.existsSync('./src/db/schema.sql')) {
+      throw new Error('schema.sql not found — DB setup will fail');
+    }
 
     const schema = fs.readFileSync('./src/db/schema.sql', 'utf-8');
     const db = new sqlite3.Database(process.env.DB_FILE);
@@ -25,7 +30,6 @@ describe('POST /register', () => {
     });
     db.close();
 
-    app = buildApp();
     await app.ready();
   });
 
