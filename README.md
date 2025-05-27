@@ -1,9 +1,11 @@
-
 # Casazium Auth
+
+![Coverage Status](https://coveralls.io/repos/github/casazium/auth/badge.svg?branch=main)
 
 **Casazium Auth** is a lightweight, self-hostable authentication service built for developers and indie creators.
 
 It provides a simple API to support:
+
 - ✅ Passwordless login via magic links
 - ✅ Optional password-based login
 - ✅ Access + refresh JWT token flows
@@ -16,6 +18,7 @@ It provides a simple API to support:
 ## 🚀 Getting Started
 
 ### Prerequisites
+
 - Node.js (v18+)
 - SQLite3
 - An SMTP server or MailDev for local testing
