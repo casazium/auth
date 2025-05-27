@@ -16,8 +16,6 @@ describe('POST /register', () => {
   let app;
 
   beforeAll(async () => {
-    app = buildApp();
-
     console.log('Loading schema from:', './src/db/schema.sql');
     if (!fs.existsSync('./src/db/schema.sql')) {
       throw new Error('schema.sql not found — DB setup will fail');
@@ -39,6 +37,8 @@ describe('POST /register', () => {
       db.exec(schema, (err) => (err ? rej(err) : res()));
     });
     db.close();
+
+    app = buildApp();
 
     await app.ready();
   });
