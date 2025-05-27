@@ -33,3 +33,5 @@ jobs:
 
       - name: 🔼 Upload to Coveralls
         run: npm run coveralls
+        env:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
