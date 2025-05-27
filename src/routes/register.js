@@ -1,5 +1,4 @@
 
-// src/routes/register.js
 import bcrypt from 'bcrypt';
 import { createUser } from '../services/userService.js';
 
@@ -18,10 +17,10 @@ async function registerRoutes(fastify, options) {
       if (result.success) {
         return reply.status(201).send({ success: true, message: 'User registered' });
       } else {
-        return reply.status(409).send({ success: false, message: 'User already exists' });
+        return reply.status(409).send({ success: false, message: result.message || 'User already exists' });
       }
     } catch (err) {
-      fastify.log.error(err);
+      console.error('🔥 Register route error:', err);  // 👈 Key for CI log
       return reply.status(500).send({ success: false, message: 'Internal server error' });
     }
   });
