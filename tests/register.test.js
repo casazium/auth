@@ -1,4 +1,3 @@
-
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import Fastify from 'fastify';
 import fs from 'fs';
@@ -17,6 +16,8 @@ describe('POST /register', () => {
   let app;
 
   beforeAll(async () => {
+    console.log('Loading schema from:', './src/db/schema.sql');
+
     const schema = fs.readFileSync('./src/db/schema.sql', 'utf-8');
     const db = new sqlite3.Database(process.env.DB_FILE);
     await new Promise((res, rej) => {
@@ -41,8 +42,8 @@ describe('POST /register', () => {
       url: '/register',
       payload: {
         email: `test+${Date.now()}@example.com`,
-        password: 'hunter2'
-      }
+        password: 'hunter2',
+      },
     });
 
     expect(response.statusCode).toBe(201);
@@ -55,8 +56,8 @@ describe('POST /register', () => {
       method: 'POST',
       url: '/register',
       payload: {
-        password: 'hunter2'
-      }
+        password: 'hunter2',
+      },
     });
 
     expect(response.statusCode).toBe(400);
@@ -71,13 +72,13 @@ describe('POST /register', () => {
     await app.inject({
       method: 'POST',
       url: '/register',
-      payload: { email, password: 'abc123' }
+      payload: { email, password: 'abc123' },
     });
 
     const response = await app.inject({
       method: 'POST',
       url: '/register',
-      payload: { email, password: 'abc123' }
+      payload: { email, password: 'abc123' },
     });
 
     expect(response.statusCode).toBe(409);
