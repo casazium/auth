@@ -30,6 +30,7 @@ jobs:
         with:
           name: lcov-report
           path: coverage
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 🔼 Upload to Coveralls
         uses: coverallsapp/github-action@v2
