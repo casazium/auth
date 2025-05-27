@@ -32,6 +32,6 @@ jobs:
           path: coverage
 
       - name: 🔼 Upload to Coveralls
-        run: npm run coveralls
-        env:
+        uses: coverallsapp/github-action@v2
+        with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
