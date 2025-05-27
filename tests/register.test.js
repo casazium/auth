@@ -1,3 +1,4 @@
+
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import Fastify from 'fastify';
 import fs from 'fs';
@@ -7,7 +8,7 @@ import registerRoutes from '../src/routes/register.js';
 process.env.DB_FILE = './test.db';
 
 const buildApp = () => {
-  const app = Fastify({ logger: false });
+  const app = Fastify({ logger: true });
   app.register(registerRoutes);
   return app;
 };
@@ -17,29 +18,23 @@ describe('POST /register', () => {
 
   beforeAll(async () => {
     console.log('Loading schema from:', './src/db/schema.sql');
-    if (!fs.existsSync('./src/db/schema.sql')) {
-      throw new Error('schema.sql not found — DB setup will fail');
-    }
-
     const schema = fs.readFileSync('./src/db/schema.sql', 'utf-8');
+    console.log('Loaded schema:\n', schema);
 
-    console.log('Checking DB write access...');
-    try {
-      fs.writeFileSync('./test.db', '');
-      console.log('✅ test.db is writable');
-    } catch (err) {
-      console.error('❌ Cannot write to test.db:', err);
-      throw err;
-    }
-
-    const db = new sqlite3.Database(process.env.DB_FILE);
     await new Promise((res, rej) => {
-      db.exec(schema, (err) => (err ? rej(err) : res()));
+      const db = new sqlite3.Database(process.env.DB_FILE);
+      db.exec(schema, (err) => {
+        if (err) {
+          console.error('❌ Schema execution failed:', err);
+          return rej(err);
+        }
+        console.log('✅ Schema executed successfully');
+        db.close();
+        res();
+      });
     });
-    db.close();
 
     app = buildApp();
-
     await app.ready();
   });
 
