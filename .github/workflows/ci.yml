@@ -35,4 +35,4 @@ jobs:
         uses: coverallsapp/github-action@v2
         with:
           COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN}}
-          github-token: ${{ secrets.github.token }}
+          github-token: ${{ secrets.github_token }}
