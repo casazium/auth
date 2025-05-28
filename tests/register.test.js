@@ -49,7 +49,9 @@ describe('POST /register', () => {
   });
 
   afterAll(async () => {
-    await app.close();
+    if (app) {
+      await app.close();
+    }
     try {
       fs.unlinkSync(process.env.DB_FILE);
     } catch {}

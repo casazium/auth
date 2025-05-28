@@ -28,7 +28,9 @@ describe('POST /register (duplicate test)', () => {
   });
 
   afterAll(async () => {
-    await app.close();
+    if (app) {
+      await app.close();
+    }
     fs.unlinkSync(dbFile);
   });
 

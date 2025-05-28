@@ -29,7 +29,9 @@ describe('POST /magic-link (error simulation)', () => {
   });
 
   afterAll(async () => {
-    await app.close();
+    if (app) {
+      await app.close();
+    }
     fs.unlinkSync(dbFile);
   });
 
