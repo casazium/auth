@@ -19,12 +19,15 @@ export async function createMagicLink(email) {
     ]);
 
     if (!user) {
-      // Don't reveal whether the user exists
-      return { success: true };
+      console.log(`👤 No user found for email: ${email}`);
+      return {
+        success: true,
+        message: 'If the user exists, a magic link has been sent',
+      };
     }
 
     const token = randomBytes(32).toString('hex');
-    const expiresAt = new Date(Date.now() + 15 * 60 * 1000).toISOString(); // 15 mins from now
+    const expiresAt = new Date(Date.now() + 15 * 60 * 1000).toISOString();
 
     await runAsync(
       'INSERT INTO magic_links (token, user_id, expires_at) VALUES (?, ?, ?)',
@@ -34,7 +37,10 @@ export async function createMagicLink(email) {
     const magicLink = `https://your-app.com/verify?token=${token}`;
     console.log(`📧 Magic link for ${email}: ${magicLink}`);
 
-    return { success: true };
+    return {
+      success: true,
+      message: 'Magic link created successfully',
+    };
   } catch (err) {
     console.error('🔥 Error creating magic link:', err);
     throw err;

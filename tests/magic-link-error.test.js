@@ -3,17 +3,12 @@ import { describe, it, expect, beforeAll, afterAll, vi } from 'vitest';
 import Fastify from 'fastify';
 import fs from 'fs';
 import sqlite3 from 'sqlite3';
+import { buildApp } from '../src/app.js';
 import * as magicService from '../src/services/magicLinkService.js';
 import magicLinkRoutes from '../src/routes/magicLink.js';
 
 const dbFile = `./test.${process.pid}.db`;
 process.env.DB_FILE = dbFile;
-
-const buildApp = () => {
-  const app = Fastify({ logger: false });
-  app.register(magicLinkRoutes);
-  return app;
-};
 
 describe('POST /magic-link (error simulation)', () => {
   let app;
@@ -29,7 +24,7 @@ describe('POST /magic-link (error simulation)', () => {
       });
     });
 
-    app = buildApp();
+    app = await buildApp();
     await app.ready();
   });
 

@@ -16,10 +16,13 @@
   "main": "index.js",
   "scripts": {
     "test": "vitest",
-    "coverage": "vitest run --coverage"
+    "coverage": "vitest run --coverage",
+    "start": "node index.js"
   },
   "dependencies": {
     "@fastify/cors": "^11.0.1",
+    "@fastify/swagger": "^9.5.1",
+    "@fastify/swagger-ui": "^5.2.2",
     "bcrypt": "^6.0.0",
     "dotenv": "^16.5.0",
     "fastify": "^5.3.3",

@@ -3,16 +3,11 @@ import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import Fastify from 'fastify';
 import fs from 'fs';
 import sqlite3 from 'sqlite3';
+import { buildApp } from '../src/app.js';
 import registerRoutes from '../src/routes/register.js';
 
 const dbFile = `./test.${process.pid}.db`;
 process.env.DB_FILE = dbFile;
-
-const buildApp = () => {
-  const app = Fastify({ logger: false });
-  app.register(registerRoutes);
-  return app;
-};
 
 describe('POST /register (duplicate test)', () => {
   let app;
@@ -28,7 +23,7 @@ describe('POST /register (duplicate test)', () => {
       });
     });
 
-    app = buildApp();
+    app = await buildApp();
     await app.ready();
   });
 
