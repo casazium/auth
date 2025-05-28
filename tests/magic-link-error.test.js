@@ -7,8 +7,7 @@ import { buildApp } from '../src/app.js';
 import * as magicService from '../src/services/magicLinkService.js';
 import magicLinkRoutes from '../src/routes/magicLink.js';
 
-const dbFile = `./test.${process.pid}.db`;
-process.env.DB_FILE = dbFile;
+const dbFile = process.env.DB_FILE;
 
 describe('POST /magic-link (error simulation)', () => {
   let app;

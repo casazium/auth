@@ -6,8 +6,7 @@ import sqlite3 from 'sqlite3';
 import { buildApp } from '../src/app.js';
 import registerRoutes from '../src/routes/register.js';
 
-const dbFile = `./test.${process.pid}.db`;
-process.env.DB_FILE = dbFile;
+const dbFile = process.env.DB_FILE;
 
 describe('POST /register (duplicate test)', () => {
   let app;

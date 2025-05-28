@@ -1,5 +1,3 @@
-process.env.DB_FILE = `./test.${process.pid}.db`; // ✅ unique per test worker
-
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import Fastify from 'fastify';
 import fs from 'fs';

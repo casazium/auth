@@ -13,5 +13,6 @@ export default {
         'src/db/init.js', // ← bootstrap
       ],
     },
+    setupFiles: ['./tests/setup.js'],
   },
 };
