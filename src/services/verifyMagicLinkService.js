@@ -35,7 +35,24 @@ export async function verifyMagicLink(token) {
     // Mark token as used
     await runAsync('UPDATE magic_links SET used = 1 WHERE token = ?', [token]);
 
-    const payload = { userId: link.user_id };
+    // Mark token as used
+    await runAsync('UPDATE magic_links SET used = 1 WHERE token = ?', [token]);
+
+    // Mark email as verified
+    await runAsync('UPDATE users SET email_verified = 1 WHERE id = ?', [
+      link.user_id,
+    ]);
+
+    const updatedUser = await getAsync(
+      'SELECT email_verified FROM users WHERE id = ?',
+      [link.user_id]
+    );
+
+    const payload = {
+      userId: link.user_id,
+      emailVerified: !!updatedUser?.email_verified,
+    };
+
     const secret = process.env.JWT_SECRET;
     const accessToken = sign(payload, secret, { expiresIn: '15m' });
     const refreshToken = sign(payload, secret, { expiresIn: '7d' });

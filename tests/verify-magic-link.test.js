@@ -116,4 +116,21 @@ describe('POST /verify-magic-link', () => {
     expect(body.success).toBe(false);
     expect(body.message).toMatch(/token has expired/i);
   });
+
+  it('should mark the user as email verified after using token', async () => {
+    const db = new sqlite3.Database(dbFile);
+    const row = await new Promise((res, rej) => {
+      db.get(
+        'SELECT email_verified FROM users WHERE email = ?',
+        ['verify@test.com'],
+        (err, row) => {
+          db.close();
+          if (err) return rej(err);
+          res(row);
+        }
+      );
+    });
+
+    expect(row.email_verified).toBe(1);
+  });
 });
