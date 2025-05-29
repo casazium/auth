@@ -6,6 +6,7 @@ import fastifySwagger from '@fastify/swagger';
 import fastifySwaggerUi from '@fastify/swagger-ui';
 import registerRoutes from './src/routes/register.js';
 import magicLinkRoutes from './src/routes/magicLink.js';
+import verifyMagicLinkRoutes from './src/routes/verifyMagicLink.js';
 import { sharedSchemas } from './src/schemas/common.js';
 
 dotenv.config();
@@ -53,6 +54,7 @@ app.register(jwt, { secret: process.env.JWT_SECRET });
 // Register routes
 app.register(registerRoutes);
 app.register(magicLinkRoutes);
+app.register(verifyMagicLinkRoutes);
 
 // Health check
 app.get('/', async () => {

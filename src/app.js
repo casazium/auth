@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import { sharedSchemas } from './schemas/common.js';
 import registerRoutes from './routes/register.js';
 import magicLinkRoutes from './routes/magicLink.js';
+import verifyMagicLinkRoutes from './routes/verifyMagicLink.js';
 import fastifySwagger from '@fastify/swagger';
 import fastifySwaggerUi from '@fastify/swagger-ui';
 import cors from '@fastify/cors';
@@ -31,6 +32,7 @@ export async function buildApp() {
   app.register(jwt, { secret: process.env.JWT_SECRET });
   app.register(registerRoutes);
   app.register(magicLinkRoutes);
+  app.register(verifyMagicLinkRoutes);
 
   // ✅ Custom error handler for validation errors and others
   app.setErrorHandler((err, request, reply) => {
