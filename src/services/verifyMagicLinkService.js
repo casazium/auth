@@ -32,10 +32,7 @@ export async function verifyMagicLink(token) {
       return { success: false, message: 'Token has expired' };
     }
 
-    // Mark token as used
-    await runAsync('UPDATE magic_links SET used = 1 WHERE token = ?', [token]);
-
-    // Mark token as used
+    // Mark token as used only once
     await runAsync('UPDATE magic_links SET used = 1 WHERE token = ?', [token]);
 
     // Mark email as verified

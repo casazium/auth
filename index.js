@@ -66,8 +66,6 @@ const start = async () => {
   try {
     await app.after();
     await app.ready();
-
-    await app.ready();
     console.log('Schemas after app.ready():', app.getSchemas());
 
     await app.listen({
