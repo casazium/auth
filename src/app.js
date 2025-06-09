@@ -8,7 +8,7 @@ import verifyMagicLinkRoutes from './routes/verifyMagicLink.js';
 import fastifySwagger from '@fastify/swagger';
 import fastifySwaggerUi from '@fastify/swagger-ui';
 import cors from '@fastify/cors';
-import jwt from 'fastify-jwt';
+import jwt from '@fastify/jwt';
 
 dotenv.config();
 
