@@ -1,7 +1,8 @@
 // src/services/verifyMagicLinkService.js
 import sqlite3 from 'sqlite3';
 import { promisify } from 'util';
-import { sign } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
+const { sign, verify } = jwt;
 
 function getDb() {
   const dbPath = process.env.DB_FILE || './casazium.db';
